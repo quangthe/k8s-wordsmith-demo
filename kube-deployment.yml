@@ -13,7 +13,7 @@ spec:
     app: words-db
   clusterIP: None
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
@@ -31,6 +31,9 @@ spec:
         ports:
         - containerPort: 5432
           name: db
+  selector:
+    matchLabels:
+      app: words-db
 ---
 apiVersion: v1
 kind: Service
@@ -47,7 +50,7 @@ spec:
     app: words-api
   clusterIP: None
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: words
@@ -66,6 +69,9 @@ spec:
         ports:
         - containerPort: 8080
           name: api
+  selector:
+    matchLabels:
+      app: words-api
 ---
 apiVersion: v1
 kind: Service
@@ -82,7 +88,7 @@ spec:
     app: words-web
   type: LoadBalancer
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
@@ -100,3 +106,6 @@ spec:
         ports:
         - containerPort: 80
           name: words-web
+  selector:
+    matchLabels:
+      app: words-web
